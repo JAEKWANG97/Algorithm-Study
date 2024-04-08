@@ -37,7 +37,10 @@ public class BOJ_1946 {
                 int s2 = Integer.parseInt(st.nextToken());
                 pq.add(new Person(s1, s2));
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> c052c108473be43b5d774644dc210ee3c182b86c
             int tmpMax = N + 1;
             int ans = 0;
             while (!pq.isEmpty()) {
