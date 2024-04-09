@@ -2,10 +2,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
-public class BOJ_8983 { //이분탐색으로 다시 풀기
+public class BOJ_8983 {
 	private static class Node{
 		int x,y;
 
@@ -14,45 +15,62 @@ public class BOJ_8983 { //이분탐색으로 다시 풀기
 			this.x = x;
 			this.y = y;
 		}
-	}//Node
+	}
 	
 	public static void main(String[] args) throws IOException {
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = null;
+		StringTokenizer st;
 		
 		st = new StringTokenizer(br.readLine());
 		int m = Integer.parseInt(st.nextToken());
 		int n = Integer.parseInt(st.nextToken());
 		int l = Integer.parseInt(st.nextToken());
 		
-		ArrayList<Node> shotLoca = new ArrayList<>();
+		Node[] shotLoca = new Node[m];
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < m; i++) {
-			int t = Integer.parseInt(st.nextToken());
-			shotLoca.add(new Node(t,0));
+			shotLoca[i] = new Node(Integer.parseInt(st.nextToken()), 0);
 		}
 		
-		Node[] animals = new Node[n];
+		ArrayList<Node> animals = new ArrayList<Node>();
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
-			animals[i] = new Node(a,b);
+			if (b > l) continue;
+			animals.add(new Node(a, b));		
 		}
 		
-		HashSet<Node> result = new HashSet<>();
-		for (Node shot : shotLoca) {
-			for (Node animal : animals) {
-				if (getDist(shot.x, shot.y, animal.x, animal.y) <= l) {
-					 result.add(animal);
+		Arrays.sort(shotLoca, (a,b)->a.x - b.x);
+		
+		HashSet<Node> result = new HashSet<Node>();
+		for (Node animal : animals) {
+			
+			int left = 0;
+			int right = shotLoca.length-1;
+			
+			while (left<=right) {
+				int mid = (left + right) / 2;
+				
+				if (getDist(animal, shotLoca[mid]) <= l) {
+					result.add(animal);
+					break;
 				}
+				
+				if (animal.x < shotLoca[mid].x) {
+					right--;
+					continue;
+				}
+				
+				left++;
 			}
 		}
+		
 		System.out.println(result.size());
 	}//main
 	
-	private static int getDist(int x1, int y1, int x2, int y2) {
-		int dist = Math.abs(x2-x1) + Math.abs(y2-y1);
-		return dist;
-	}//getDist
+	private static int getDist(Node a, Node b) {
+		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+	}
 }//class
