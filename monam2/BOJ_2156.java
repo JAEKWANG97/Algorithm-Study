@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class BOJ_2156 { 백준 2156 포도주 시식 - 60분
+public class BOJ_2156 { //백준 2156 포도주 시식 - 60분
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
