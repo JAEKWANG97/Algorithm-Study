@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class PGS_뉴스클러스터링 {
+    public int solution(String str1, String str2) {
+        ArrayList<String> arr1 = new ArrayList<>();
+        ArrayList<String> arr2 = new ArrayList<>();
+        ArrayList<String> union = new ArrayList<>();
+        ArrayList<String> interSec = new ArrayList<>();
+
+        //대소문자 관계 없음 -> 모두 소문자로 치환
+        str1 = str1.toLowerCase();
+        str2 = str2.toLowerCase();
+
+        for (int i = 0; i < str1.length() - 1; ++i) {
+            char first = str1.charAt(i);
+            char second = str1.charAt(i + 1);
+
+            //집합을 구하며 숫자 또는 공백, 특수 문자등의 쌍은 버림
+            if (first >= 'a' && first <= 'z' &&
+                    second >= 'a' && second <= 'z') {
+                arr1.add(first + "" + second);
+            }
+        }
+
+        for (int i = 0; i < str2.length() - 1; ++i) {
+            char first = str2.charAt(i);
+            char second = str2.charAt(i + 1);
+
+            //집합을 구하며 숫자 또는 공백, 특수 문자등의 쌍은 버림
+            if (first >= 'a' && first <= 'z' &&
+                    second >= 'a' && second <= 'z') {
+                arr2.add(first + "" + second);
+            }
+        }
+
+        //쉬운 비교를 위해 소트
+        Collections.sort(arr1);
+        Collections.sort(arr2);
+
+        //서로 같은걸 교집합에 넣으면서 arr2의 값 버리기 + 합집합 배열에 넣기
+        for (String s : arr1) {
+            if (arr2.remove(s)) {
+                interSec.add(s);
+            }
+            union.add(s);
+        }
+
+        //교집합 하고 남은 배열 원소를 합집합에 넣어준다.
+        for (String s : arr2) {
+            union.add(s);
+        }
+
+        double jakard = 0;
+
+        //분모가 0 처리
+        if (union.size() == 0) {
+            jakard = 1;
+        } else {
+            jakard = (double) interSec.size() / (double) union.size();
+        }
+
+        return (int) (jakard * 65536);
+    }
+}

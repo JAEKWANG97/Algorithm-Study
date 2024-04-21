@@ -1,0 +1,20 @@
+public class PGC_택배배달과수거하기 {
+    public long solution(int cap, int n, int[] deliveries, int[] pickups) {
+        long answer = 0;
+
+        int dIdx = 0;
+        int pIdx = 0;
+        for(int i=n-1; i>=0; i--){
+            dIdx -= deliveries[i];
+            pIdx -= pickups[i];
+
+            while(dIdx < 0 || pIdx < 0){
+                dIdx += cap;
+                pIdx += cap;
+                answer += (i+1)*2;
+            }
+        }
+
+        return answer;
+    }
+}
