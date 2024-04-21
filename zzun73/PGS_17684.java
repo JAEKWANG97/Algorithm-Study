@@ -1,6 +1,7 @@
 import java.util.*;
 
 class PGS_17684 {
+    public static int idx = 1;
     public static ArrayList<Integer> list;
     public static HashMap<String, Integer> map;
 
@@ -8,7 +9,6 @@ class PGS_17684 {
 
         list = new ArrayList<>();
         map = new HashMap<>();
-        int idx = 1;
         while (idx <= 26) {
             map.put(String.valueOf((char) ('A' + idx - 1)), idx++);
         }
