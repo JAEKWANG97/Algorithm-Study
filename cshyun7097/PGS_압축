@@ -1,0 +1,37 @@
+import java.util.*;
+import java.io.*;
+
+public class PGS_압축 {
+    public int[] solution(String msg) {
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        for (int i = 0; i < 26; i++) {
+            hashMap.put(String.valueOf((char) ('A' + i)), i + 1);
+        }
+
+        ArrayList<Integer> result = new ArrayList<>();
+        int idx = 0;
+
+        while (idx + 1 < msg.length()){
+            String cur = "";
+            String pre = String.valueOf(msg.charAt(idx));
+
+            for (int i = 1; idx + i <= msg.length() ; i++) {
+                cur = msg.substring(idx, idx + i);
+                if(!hashMap.containsKey(cur)){
+                    hashMap.put(cur, hashMap.size() + 1);
+                    break;
+                }
+                pre = cur;
+            }
+
+            result.add(hashMap.get(pre));
+            idx = idx + pre.length();
+        }
+
+        if(idx == msg.length() - 1){
+            result.add(hashMap.get(String.valueOf(msg.charAt(idx))));
+        }
+
+        return result.stream().mapToInt(i -> i).toArray();
+    }
+}
