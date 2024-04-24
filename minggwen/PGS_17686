@@ -1,0 +1,44 @@
+import java.util.*;
+class Solution {
+    static class File implements Comparable<File>{
+        String head, number,file;
+        public File(String head, String number, String file){
+            this.head = head;
+            this.number = number;
+
+            this.file = file;
+        }
+        @Override
+        public int compareTo(File o){
+             if ((this.head.toUpperCase()).equals(o.head.toUpperCase())) { 	
+                    return Integer.parseInt(this.number)-Integer.parseInt(o.number); 
+                }else{
+                    return (this.head.toUpperCase()).compareTo(o.head.toUpperCase()); 
+                }
+        }
+    }
+    public String[] solution(String[] files) {
+        String[] answer = new String[files.length];
+        Queue<File> que = new PriorityQueue<>();
+        for(String file:files){
+            String head="";
+            String number="";
+            boolean isHead = true;
+            int idx=0;
+            for(;idx<file.length();idx++){
+                if(isHead&&!Character.isDigit(file.charAt(idx))){
+                    head+=Character.toString(file.charAt(idx));
+                }else if('0'<=file.charAt(idx)&&file.charAt(idx)<'9'){
+                    isHead = false;
+                    number+=file.charAt(idx);
+                }
+                if(!isHead&&!Character.isDigit(file.charAt(idx)))break;
+            }
+            que.add(new File(head,number,file));
+        }
+        for(int idx=0;idx<files.length;idx++){
+            answer[idx] = que.poll().file;
+        }
+        return answer;
+    }
+}
