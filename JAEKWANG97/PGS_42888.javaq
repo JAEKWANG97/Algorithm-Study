@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Solution {
+    public String[] solution(String[] record) {
+        HashMap<String, String> userIdToNickname = new HashMap<>();
+        ArrayList<String[]> actionLogs = new ArrayList<>();
+
+        for (String log : record) {
+            String[] parts = log.split(" ");
+            String action = parts[0];
+            String userId = parts[1];
+
+            if (action.equals("Enter")) {
+                userIdToNickname.put(userId, parts[2]);
+                actionLogs.add(new String[] {userId, "님이 들어왔습니다."});
+            } else if (action.equals("Leave")) {
+                actionLogs.add(new String[] {userId, "님이 나갔습니다."});
+            } else if (action.equals("Change")) {
+                userIdToNickname.put(userId, parts[2]);
+            }
+        }
+
+        String[] result = new String[actionLogs.size()];
+        int i = 0;
+        for (String[] log : actionLogs) {
+            String finalNickname = userIdToNickname.get(log[0]);
+            result[i++] = finalNickname + log[1];
+        }
+
+        return result;
+    }
+}
