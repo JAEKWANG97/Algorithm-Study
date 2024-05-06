@@ -1,18 +1,42 @@
 import java.util.*;
 
 class Solution {
-    public int solution(String[][] clothes) {
-        int answer = 0;
-        Map<String , Integer> map = new HashMap<>();
-        int n = clothes.length;
-        for(int i = 0 ; i < n  ; i++){
-            map.put(clothes[i][1] , map.getOrDefault(clothes[i][1] , 0) + 1);
+    static class Item{
+        int p;
+        int l;
+        
+        public Item(int p, int l){
+            this.p = p;
+            this.l = l;
         }
-        answer = 1;
-        for(Integer value : map.values()){
-            answer *= value+1;
+    }
+    public int solution(int[] priorities, int location) {
+        int answer = 0;
+        int max = 0;
+        Queue<Item> que = new ArrayDeque<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> o2-o1);
+        for(int i = 0 ; i < priorities.length ; i++){
+            que.add(new Item(priorities[i], i));
+            pq.add(priorities[i]);
+        }
+                    
+        int count = 0;
+        while(!que.isEmpty() && !pq.isEmpty()){
+            Item cur = que.poll();
+            if(cur.p == pq.peek()){
+                count+=1;
+                pq.poll();
+                if(cur.l == location){
+                    return count;
+                }
+            }else{
+                que.add(cur);
+                continue;
+            }
+            
+            
         }
         
-        return --answer;
+        return answer;
     }
 }
